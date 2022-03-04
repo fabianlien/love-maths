@@ -5,7 +5,7 @@ document.addEventListener("DOMContentLoaded", function() {
     for (let button of buttons) {
         button.addEventListener("click", function() {
             if (this.getAttribute("data-type") === "submit") {
-                alert("You clicked Submit!");
+                checkAnswer();
             } else {
                 let gameType = this.getAttribute("data-type");
                 runGame(gameType);
@@ -23,8 +23,8 @@ document.addEventListener("DOMContentLoaded", function() {
  * and after the user's answer has been processed.
  */
 function runGame(gameType) {
-    let num1 = Math.floor(Math.random() * 25) + 1
-    let num2 = Math.floor(Math.random() * 25) + 1
+    let num1 = Math.floor(Math.random() * 25) + 1;
+    let num2 = Math.floor(Math.random() * 25) + 1;
 
     if (gameType === "addition") {
         displayAdditionQuestion(num1, num2)
@@ -34,8 +34,37 @@ function runGame(gameType) {
     }
 }
 
-function checkAnswer() {
 
+/**
+ * Checks the Answer against the first element of the returned array from calculateCorrectAnswer()
+ */
+function checkAnswer() {
+    let userAnswer = parseInt(document.getElementById("answer-box").value);
+    let calculatedAnswer = calculateCorrectAnswer();
+    let isCorrect = userAnswer === calculatedAnswer[0];
+    if (isCorrect) {
+        alert("Hey! You got it right! :D");
+    } else {
+        alert(`Awwww... you answered ${userAnswer}. The correct answer was ${calculatedAnswer[0]}.`);
+    }
+    runGame(calculatedAnswer[1])
+}
+
+/**
+ * Gets the operands (num1 and num2) and the operator (algebra sign)
+ * from the DOM and returns there sum.
+ */
+function calculateCorrectAnswer() {
+    let operand1 = parseInt(document.getElementById('operand1').innerText);
+    let operand2 = parseInt(document.getElementById('operand2').innerText);
+    let operator = document.getElementById("operator").innerText;
+    
+    if (operator === "+") {
+        return [operand1 + operand2, "addition"];
+    } else {
+        alert(`Unimplemented Operator: ${operator}`);
+        throw `Unimplemented Operator: ${operator}. Aborting!`;
+    }
 }
 
 function incrementScore() {
