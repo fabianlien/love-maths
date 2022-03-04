@@ -12,17 +12,23 @@ document.addEventListener("DOMContentLoaded", function() {
             }
         })
     }
+    document.getElementById("answer-box").addEventListener("keydown", function(event) {
+        if (event.key === "Enter") {
+            checkAnswer();
+        }
+    });
 
     runGame("addition");
 
 });
-
 
 /**
  * The main game "loop" called when the script is first loaded
  * and after the user's answer has been processed.
  */
 function runGame(gameType) {
+    document.getElementById("answer-box").value = "";
+    document.getElementById("answer-box").focus();
     let num1 = Math.floor(Math.random() * 25) + 1;
     let num2 = Math.floor(Math.random() * 25) + 1;
 
@@ -83,7 +89,7 @@ function calculateCorrectAnswer() {
 function incrementScore() {
     let oldScore = parseInt(document.getElementById("score").innerText);
     let newScore = oldScore + 1;
-    document.getElementById("score").innerText = newScore
+    document.getElementById("score").innerText = ` ${newScore}`
 }
 
 /**
@@ -92,7 +98,7 @@ function incrementScore() {
 function incrementWrongAnswer() {
     let oldIncorrect = parseInt(document.getElementById("incorrect").innerText);
     let newIncorrect = oldIncorrect + 1;
-    document.getElementById("incorrect").innerText = newIncorrect
+    document.getElementById("incorrect").innerText = ` ${newIncorrect}`
 }
 
 
